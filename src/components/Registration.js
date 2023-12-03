@@ -1,0 +1,83 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+const Registration = () => {
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [errorMessage, setErrorMessage] = useState(null);
+
+  const handleRegistration = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/rest/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          login,
+          password,
+          email,
+        }),
+      });
+
+      if (response.ok) {
+        // Rejestracja udana - przekierowanie do innego widoku (np. strony logowania)
+        // Możesz użyć hooka nawigacji lub przekazać history z React Router.
+        // history.push('/login');
+        console.log('Rejestracja udana');
+      } else {
+        // Rejestracja nieudana
+        const data = await response.json();
+        setErrorMessage(data.message || 'Wystąpił błąd podczas rejestracji.');
+      }
+    } catch (error) {
+      console.error('Błąd podczas rejestracji:', error);
+      setErrorMessage('Wystąpił błąd. Spróbuj ponownie.');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Rejestracja</h2>
+      <form>
+        <label>Login:</label>
+        <input
+          type="text"
+          placeholder="Login"
+          value={login}
+          onChange={(e) => setLogin(e.target.value)}
+          required
+        />
+        <br />
+        <label>Adres email:</label>
+        <input
+          type="email"
+          placeholder="Adres email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <br />
+        <label>Hasło:</label>
+        <input
+          type="password"
+          placeholder="Hasło"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <br />
+        <button type="button" onClick={handleRegistration}>
+          Zarejestruj się
+        </button>
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      </form>
+      <p>
+        Masz już konto? <Link to="/login">Zaloguj się</Link>
+      </p>
+    </div>
+  );
+};
+
+export default Registration;
