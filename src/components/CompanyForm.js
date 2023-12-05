@@ -22,9 +22,15 @@ const CompanyForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+
     try {
       const response = await fetch('http://localhost:8080/rest/company', {
         method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
         body: JSON.stringify({
           login: formData.login,
           nip: formData.nip,
@@ -41,6 +47,11 @@ const CompanyForm = () => {
 
       if (!response.ok) {
         throw new Error('Network response was not ok');
+        console.log(token);
+      }
+
+      else{
+          console.log(token);
       }
 
       const responseData = await response.json();
