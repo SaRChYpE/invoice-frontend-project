@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './CompanyForm.css'; // Import stylów
 
 
 const CompanyForm = () => {
+
+    const navigate = useNavigate();
+
   const history = useNavigate();
   const [formData, setFormData] = useState({
     login: '',
@@ -22,7 +26,7 @@ const CompanyForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, '$1');
+    const token = sessionStorage.getItem('token');
 
     try {
       const response = await fetch('http://localhost:8080/rest/company', {
@@ -52,6 +56,7 @@ const CompanyForm = () => {
 
       else{
           console.log(token);
+          navigate('/home');
       }
 
       const responseData = await response.json();

@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 
 const InvoiceForm = () => {
+  const token = sessionStorage.getItem('token');
+
+  const isValidNumber = (value) => {
+    return !isNaN(value);
+  };
+
   const [formData, setFormData] = useState({
-    userLogin: 'danio',
     name: '',
     customerHelper: {
       id: 1
@@ -14,6 +19,11 @@ const InvoiceForm = () => {
         vatRate: 0
       }
     ]
+  });
+
+  const [errors, setErrors] = useState({
+    name: '',
+    items: []
   });
 
   const handleInputChange = (id, event) => {
@@ -30,7 +40,7 @@ const InvoiceForm = () => {
   const handleAddItem = () => {
     setFormData({
       ...formData,
-      items: [...formData.items, { id: Date.now(), name: '', price: 0, vatRate: 0 }]
+      items: [...formData.items, { name: '', price: 0, vatRate: 0 }]
     });
   };
 
@@ -43,11 +53,40 @@ const InvoiceForm = () => {
   };
 
   const handleFormSubmit = async () => {
+    let formIsValid = true;
+
+    const newErrors = {
+      name: '',
+      items: []
+    };
+
+    if (!formData.name.trim()) {
+      newErrors.name = 'Pole "Name" nie może być puste.';
+      formIsValid = false;
+    }
+
+    const invalidItems = formData.items.filter(item => !isValidNumber(item.price) || !isValidNumber(item.vatRate));
+    if (invalidItems.length > 0) {
+      invalidItems.forEach((_, index) => {
+        if (!newErrors.items[index]) {
+          newErrors.items[index] = [];
+        }
+        newErrors.items[index].push('Pola "Price" i "VAT Rate" muszą być liczbami.');
+      });
+      formIsValid = false;
+    }
+
+    if (!formIsValid) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:8080/rest/invoice', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(formData)
       });
@@ -71,13 +110,17 @@ const InvoiceForm = () => {
             type="text"
             name="name"
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            onChange={(e) => {
+              setFormData({ ...formData, name: e.target.value });
+              setErrors({ ...errors, name: '' });
+            }}
           />
+          {errors.name && <p>{errors.name}</p>}
         </label>
 
         <h3>Items:</h3>
-        {formData.items.map((item) => (
-          <div key={item.id}>
+        {formData.items.map((item, index) => (
+          <div key={index}>
             <label>
               Item Name:
               <input
@@ -86,6 +129,9 @@ const InvoiceForm = () => {
                 value={item.name}
                 onChange={(e) => handleInputChange(item.id, e)}
               />
+              {errors.items && errors.items[index] && errors.items[index].map((err, errIndex) => (
+                <p key={errIndex}>{err}</p>
+              ))}
             </label>
             <label>
               Price:
