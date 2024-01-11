@@ -24,7 +24,7 @@ function ItemsList({ data, onDelete }) {
           <p>Adres: {item.companyHelper.address.street}, {item.companyHelper.address.zipCode} {item.companyHelper.address.city} {item.companyHelper.address.country}</p>
           <p>Numer budynku: {item.companyHelper.address.buildingNumber}</p>
           <p>Email: {item.companyHelper.address.email}</p>
-          <p>Telefon: {item.scompanyHelper.address.phone}</p>
+          <p>Telefon: {item.companyHelper.address.phone}</p>
 
 
 
