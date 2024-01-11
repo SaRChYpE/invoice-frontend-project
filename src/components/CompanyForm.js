@@ -9,12 +9,12 @@ const CompanyForm = () => {
 
   const history = useNavigate();
   const [formData, setFormData] = useState({
-    login: '',
+    name: '',
     nip: '',
     city: '',
     zipCode: '',
     street: '',
-    buildNumber: '',
+    buildingNumber: '',
     email: '',
     phone: '',
   });
@@ -36,13 +36,13 @@ const CompanyForm = () => {
             'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
-          login: formData.login,
           nip: formData.nip,
           address: {
+            name: formData.name,
             city: formData.city,
             zipCode: formData.zipCode,
             street: formData.street,
-            buildNumber: formData.buildNumber,
+            buildingNumber: formData.buildingNumber,
             email: formData.email,
             phone: formData.phone,
           },
@@ -69,9 +69,9 @@ const CompanyForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        Login:
-        <input type="text" name="login" value={formData.login} onChange={handleChange} />
+        <label>
+        Nazwa:
+        <input type="text" name="name" value={formData.name} onChange={handleChange} />
       </label>
       <br />
       <label>
@@ -96,7 +96,7 @@ const CompanyForm = () => {
       <br />
       <label>
         Build Number:
-        <input type="text" name="buildNumber" value={formData.buildNumber} onChange={handleChange} />
+        <input type="text" name="buildNumber" value={formData.buildingNumber} onChange={handleChange} />
       </label>
       <br />
       <label>

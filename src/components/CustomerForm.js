@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import {useNavigate} from "react-router-dom";
 
 const CustomerForm = () => {
+
+    const navigate = useNavigate();
     const token = sessionStorage.getItem('token');
     const [formData, setFormData] = useState({
         name: '',
@@ -47,6 +50,7 @@ const CustomerForm = () => {
 
             if (response.ok) {
                 const customerData = await response.json();
+                navigate("/customers")
                 console.log('Klient został utworzony pomyślnie. ID:', customerData.id);
             } else {
                 console.error('Wystąpił błąd podczas tworzenia klienta.');

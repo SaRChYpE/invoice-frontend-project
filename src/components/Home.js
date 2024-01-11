@@ -22,7 +22,7 @@ const Home = () => {
     <div>
       <div>
         {/* Edytuj dane firmy - link do odpowiedniej ścieżki */}
-        <Link to="/create-company">Edytuj dane firmy</Link>
+        <Link to="/create-company">Stwórz firmę</Link>
         {/* Przyciski Klienci i Faktury - linki do odpowiednich ścieżek */}
         <Link to="/clients">Klienci</Link>
         <Link to="/invoices">Faktury</Link>

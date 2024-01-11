@@ -1,0 +1,40 @@
+/* InvoiceDetail.css */
+
+.invoice-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.items-list-container {
+  margin-bottom: 20px;
+}
+
+.invoice-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.generate-button,
+.download-button {
+  background-color: #2196F3; /* Kolor niebieski */
+  color: #fff;
+  padding: 10px;
+  border: none;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.generate-button:hover,
+.download-button:hover {
+  background-color: #0e5aa7; /* Kolor niebieski (ciemniejszy odcień) przy najechaniu kursorem */
+}
+
+.error-message {
+  color: red;
+}
+
+.loading-message {
+  font-style: italic;
+}

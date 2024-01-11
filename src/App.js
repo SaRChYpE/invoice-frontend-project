@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import InvoiceDetail from "./components/InvoiceDetail";
 import CustomerDetails from "./components/CustomerDetails";
 import InvoiceList from "./components/InvoiceList";
+import CustomerList from "./components/CustomerList";
 
 
 
@@ -29,7 +30,8 @@ const App = () => {
                 <Route path="/create-customer" element={<PrivateRoute><CustomerForm /></PrivateRoute>} />
                 <Route path="/invoices/:id" element={<PrivateRoute><InvoiceDetail /></PrivateRoute>} />
                 <Route path="/customer/:login" element={<PrivateRoute><CustomerDetails /></PrivateRoute>} />
-                <Route path="/invoices/" element={<PrivateRoute><InvoiceList></InvoiceList></PrivateRoute>} />
+                <Route path="/invoices" element={<PrivateRoute><InvoiceList></InvoiceList></PrivateRoute>} />
+                <Route path="/customers" element={<PrivateRoute><CustomerList></CustomerList></PrivateRoute>} />
             {/* ... inne ścieżki i komponenty ... */}
             </Routes>
          </Router>

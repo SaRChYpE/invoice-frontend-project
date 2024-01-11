@@ -1,7 +1,46 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from "react-router-dom";
 
 const InvoiceForm = () => {
   const token = sessionStorage.getItem('token');
+  const [customerList, setCustomerList] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState('');
+  const navigate = useNavigate();
+
+  const fetchCustomerList = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/rest/customer/find-all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          "filterHelper": {},
+          "pageSize": 10,
+          "pageNumber": 0
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setCustomerList(data.items);
+        navigate('/invoices');
+      } else {
+        console.error('Wystąpił błąd podczas pobierania listy klientów.');
+      }
+    } catch (error) {
+      console.error('Wystąpił błąd podczas wysyłania zapytania:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCustomerList();
+  }, []); // Wywołaj tylko raz po zamontowaniu komponentu
+
+  const handleCustomerChange = (event) => {
+    setSelectedCustomer(event.target.value);
+  };
 
   const isValidNumber = (value) => {
     return !isNaN(value);
@@ -116,6 +155,20 @@ const InvoiceForm = () => {
             }}
           />
           {errors.name && <p>{errors.name}</p>}
+        </label>
+
+        <label>
+          Customer:
+          <select
+            name="customer"
+            value={selectedCustomer}
+            onChange={handleCustomerChange}
+          >
+            <option value="" disabled>Select a customer</option>
+            {customerList.map(customer => (
+              <option key={customer.id} value={customer.id}>{customer.address.name}</option>
+            ))}
+          </select>
         </label>
 
         <h3>Items:</h3>

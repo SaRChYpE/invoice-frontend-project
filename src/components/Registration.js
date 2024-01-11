@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Registration = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate();
+
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleRegistration = async () => {
+    // Walidacja danych
+    if (!login || !email || !password) {
+      setErrorMessage('Wszystkie pola są wymagane.');
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrorMessage('Nieprawidłowy format adresu email.');
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:8080/rest/auth/register', {
         method: 'POST',
@@ -24,8 +41,7 @@ const Registration = () => {
       if (response.ok) {
         // Rejestracja udana - przekierowanie do innego widoku (np. strony logowania)
         // Możesz użyć hooka nawigacji lub przekazać history z React Router.
-        // history.push('/login');
-        console.log('Rejestracja udana');
+        navigate('/login');
       } else {
         // Rejestracja nieudana
         const data = await response.json();
