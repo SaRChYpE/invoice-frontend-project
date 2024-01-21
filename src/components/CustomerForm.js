@@ -9,9 +9,9 @@ const CustomerForm = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem('token');
   const [formData, setFormData] = useState({
-    name: '',
     nip: '',
     address: {
+      name: '',
       city: '',
       zipCode: '',
       street: '',
@@ -41,27 +41,44 @@ const CustomerForm = () => {
   };
 
   const handleFormSubmit = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/rest/customer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const customerData = await response.json();
-        navigate("/customers");
-        console.log('Klient został utworzony pomyślnie. ID:', customerData.id);
-      } else {
-        console.error('Wystąpił błąd podczas tworzenia klienta.');
-      }
-    } catch (error) {
-      console.error('Wystąpił błąd podczas wysyłania zapytania:', error);
+  try {
+    if (!formData.nip || !formData.address.name || !formData.address.city || !formData.address.zipCode || !formData.address.street || !formData.address.buildingNumber || !formData.address.email || !formData.address.phone) {
+      console.error('Please fill out all fields before submitting the form.');
+      return;
     }
-  };
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.address.email)) {
+      console.error('Please enter a valid email address.');
+      return;
+    }
+
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(formData.address.phone)) {
+      console.error('Please enter a valid 10-digit phone number.');
+      return;
+    }
+
+    const response = await fetch('http://localhost:8080/rest/customer', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (response.ok) {
+      const customerData = await response.json();
+      navigate("/customers");
+      console.log('Customer created successfully. ID:', customerData.id);
+    } else {
+      console.error('An error occurred while creating the customer.');
+    }
+  } catch (error) {
+    console.error('An error occurred while sending the request:', error);
+  }
+};
 
   return (
     <div className="customer-form-container">
@@ -74,8 +91,8 @@ const CustomerForm = () => {
           <input
             type="text"
             name="name"
-            value={formData.name}
-            onChange={handleInputChange}
+            value={formData.address.name}
+            onChange={handleAddressChange}
           />
         </label>
 
