@@ -14,49 +14,56 @@ const Registration = () => {
   };
 
   const handleRegistration = async () => {
-    // Walidacja danych
-    if (!login || !email || !password) {
-      setErrorMessage('Wszystkie pola są wymagane.');
+  // Walidacja danych
+  if (!login || !email || !password) {
+    setErrorMessage('Wszystkie pola są wymagane.');
+    return;
+  }
+
+  if (!validateEmail(email)) {
+    setErrorMessage('Nieprawidłowy format adresu email.');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:8080/rest/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        login,
+        password,
+        email,
+      }),
+    });
+
+    if (response.ok) {
+      // Rejestracja udana - przekierowanie do innego widoku (np. strony logowania)
+      navigate('/login');
       return;
     }
 
-    if (!validateEmail(email)) {
-      setErrorMessage('Nieprawidłowy format adresu email.');
-      return;
-    }
+    // Check if the response has content before trying to parse JSON
+    const contentType = response.headers.get('content-type');
+    const hasContent = contentType && contentType.includes('application/json');
 
-    try {
-      const response = await fetch('http://localhost:8080/rest/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          login,
-          password,
-          email,
-        }),
-      });
-
-      if (response.ok) {
-        // Rejestracja udana - przekierowanie do innego widoku (np. strony logowania)
-        // Możesz użyć hooka nawigacji lub przekazać history z React Router.
-        navigate('/login');
-      } else {
-        // Rejestracja nieudana
-        const data = await response.json();
-        setErrorMessage(data.message || 'Wystąpił błąd podczas rejestracji.');
-      }
-    } catch (error) {
-      console.error('Błąd podczas rejestracji:', error);
-      setErrorMessage('Wystąpił błąd. Spróbuj ponownie.');
+    if (hasContent) {
+      const data = await response.json();
+      setErrorMessage(data.message || 'Wystąpił błąd podczas rejestracji.');
+    } else {
+      setErrorMessage('Wystąpił błąd podczas rejestracji.');
     }
-  };
+  } catch (error) {
+    console.error('Błąd podczas rejestracji:', error);
+    setErrorMessage('Wystąpił błąd. Spróbuj ponownie.');
+  }
+};
 
   return (
-    <div>
+    <div className='registration-container'>
       <h2>Rejestracja</h2>
-      <form>
+      <form className='registration-form'>
         <label>Login:</label>
         <input
           type="text"

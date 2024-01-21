@@ -1,6 +1,6 @@
 // App.js
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useContext} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import Login from './components/Login';
 import Registration from './components/Registration';
 import Home from "./components/Home"; // Importuj AuthProvider
@@ -13,6 +13,7 @@ import InvoiceDetail from "./components/InvoiceDetail";
 import CustomerDetails from "./components/CustomerDetails";
 import InvoiceList from "./components/InvoiceList";
 import CustomerList from "./components/CustomerList";
+import WelcomePage from "./components/WelcomePage";
 
 
 
@@ -22,17 +23,17 @@ const App = () => {
       <AuthProvider>
         <Router>
             <Routes>
+                <Route path="/" element={<WelcomePage />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/rejestracja" element={<Registration />} />
-                <Route path="/home" element={<PrivateRoute><Home/></PrivateRoute>}  />
+                <Route path="/register" element={<Registration />} />
+                <Route path="/home" element={<PrivateRoute><Home markdown={'test'}/></PrivateRoute>}  />
                 <Route path="/create-company" element={<PrivateRoute><CompanyForm/></PrivateRoute>}  />
                 <Route path="/create-invoice" element={<PrivateRoute><InvoiceForm /></PrivateRoute>} />
                 <Route path="/create-customer" element={<PrivateRoute><CustomerForm /></PrivateRoute>} />
                 <Route path="/invoices/:id" element={<PrivateRoute><InvoiceDetail /></PrivateRoute>} />
-                <Route path="/customer/:login" element={<PrivateRoute><CustomerDetails /></PrivateRoute>} />
+                <Route path="/customer/:id" element={<PrivateRoute><CustomerDetails /></PrivateRoute>} />
                 <Route path="/invoices" element={<PrivateRoute><InvoiceList></InvoiceList></PrivateRoute>} />
                 <Route path="/customers" element={<PrivateRoute><CustomerList></CustomerList></PrivateRoute>} />
-            {/* ... inne ścieżki i komponenty ... */}
             </Routes>
          </Router>
       </AuthProvider>

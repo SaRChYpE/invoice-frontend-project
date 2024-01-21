@@ -1,13 +1,12 @@
+// CompanyForm.js
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './CompanyForm.css'; // Import stylów
-
+import Navbar from "./Navbar";
+import './styles.css'; // Dodaj import stylów
 
 const CompanyForm = () => {
-
-    const navigate = useNavigate();
-
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     nip: '',
@@ -32,8 +31,8 @@ const CompanyForm = () => {
       const response = await fetch('http://localhost:8080/rest/company', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           nip: formData.nip,
@@ -52,65 +51,70 @@ const CompanyForm = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
         console.log(token);
-      }
-
-      else{
-          console.log(token);
-          navigate('/home');
+      } else {
+        console.log(token);
+        navigate('/home');
       }
 
       const responseData = await response.json();
       console.log('Company created:', responseData);
-      history.push('/home');
+      navigate('/home');
     } catch (error) {
       console.error('Error creating company:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-        <label>
-        Nazwa:
-        <input type="text" name="name" value={formData.name} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        NIP:
-        <input type="text" name="nip" value={formData.nip} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        City:
-        <input type="text" name="city" value={formData.city} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Zip Code:
-        <input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Street:
-        <input type="text" name="street" value={formData.street} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Build Number:
-        <input type="text" name="buildNumber" value={formData.buildingNumber} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input type="text" name="email" value={formData.email} onChange={handleChange} />
-      </label>
-      <br />
-      <label>
-        Phone:
-        <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
-      </label>
-      <br />
-      <button type="submit">Create Company</button>
-    </form>
+    <div className="companyFormContainer">
+      <div>
+        <Navbar />
+      </div>
+      <div className="companyForm">
+        <form onSubmit={handleSubmit}>
+          <label>
+            Nazwa:
+            <input type="text" name="name" value={formData.name} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            NIP:
+            <input type="text" name="nip" value={formData.nip} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            City:
+            <input type="text" name="city" value={formData.city} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Zip Code:
+            <input type="text" name="zipCode" value={formData.zipCode} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Street:
+            <input type="text" name="street" value={formData.street} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Build Number:
+            <input type="text" name="buildingNumber" value={formData.buildingNumber} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Email:
+            <input type="text" name="email" value={formData.email} onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Phone:
+            <input type="text" name="phone" value={formData.phone} onChange={handleChange} />
+          </label>
+          <br />
+          <button type="submit">Create Company</button>
+        </form>
+      </div>
+    </div>
   );
 };
 

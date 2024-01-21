@@ -1,12 +1,14 @@
+// CustomerDetails.js
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import './CustomerDetail.css';
+import Navbar from "./Navbar";
 
 const CustomerDetails = () => {
-  const { login } = useParams(); // Pobieranie loginu z URL
+  const { id } = useParams();
   const [customerData, setCustomerData] = useState(null);
   const [error, setError] = useState(null);
-  const token = sessionStorage.getItem('token'); // Pobieranie tokena z sesji
+  const token = sessionStorage.getItem('token');
 
   useEffect(() => {
     // Sprawdzanie czy token istnieje
@@ -15,8 +17,8 @@ const CustomerDetails = () => {
       return;
     }
 
-    // Wykonanie zapytania GET do endpointu z podanym loginem
-    fetch(`http://localhost:8080/rest/customer/get-all/${login}`, {
+    // Wykonanie zapytania GET do endpointu z podanym ID klienta
+    fetch(`http://localhost:8080/rest/customer/${id}`, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -34,36 +36,41 @@ const CustomerDetails = () => {
       .catch(error => {
         setError(error.message);
       });
-  }, [login, token]);
+  }, [id, token]);
 
   if (error) {
-    return <div>Błąd: {error}</div>;
+    return <div className="detailsContainer">Błąd: {error}</div>;
   }
 
-if (!customerData || customerData.length === 0) {
-  return <div>Ładowanie...</div>;
-}
+  if (!customerData || customerData.length === 0) {
+    return <div className="detailsContainer">Ładowanie...</div>;
+  }
 
-const singleCustomerData = customerData[0]; // Pobranie pierwszego obiektu z tablicy
+  const singleCustomerData = customerData;
 
-return (
-  <div className="customer-container">
-    <h2>Dane klienta</h2>
-    <p>NIP: {singleCustomerData.nip}</p>
-    <p>Adres:</p>
-    <ul>
-      <li>Nazwa: {singleCustomerData.address ? (singleCustomerData.address.name || 'Brak danych') : 'Brak danych'}</li>
-      <li>Kraj: {singleCustomerData.address ? singleCustomerData.address.country : 'Brak danych'}</li>
-      <li>Miasto: {singleCustomerData.address ? singleCustomerData.address.city : 'Brak danych'}</li>
-      <li>Kod pocztowy: {singleCustomerData.address ? singleCustomerData.address.zipCode : 'Brak danych'}</li>
-      <li>Ulica: {singleCustomerData.address ? singleCustomerData.address.street : 'Brak danych'}</li>
-      <li>Numer budynku: {singleCustomerData.address ? (singleCustomerData.address.buildingNumber || 'Brak danych') : 'Brak danych'}</li>
-      <li>Email: {singleCustomerData.address ? (singleCustomerData.address.email || 'Brak danych') : 'Brak danych'}</li>
-      <li>Telefon: {singleCustomerData.address ? (singleCustomerData.address.phone || 'Brak danych') : 'Brak danych'}</li>
-    </ul>
-  </div>
-);
+  if (!singleCustomerData) {
+    return <div className="detailsContainer">Dane klienta niedostępne</div>;
+  }
 
+  return (
+    <div className="detailsContainer">
+      <Navbar />
+      <div className="detailsContent">
+        <h2>Dane klienta</h2>
+        <p>NIP: {singleCustomerData.nip}</p>
+        <ul>
+          <li>Nazwa: {singleCustomerData.address ? (singleCustomerData.address.name || 'Brak danych') : 'Brak danych'}</li>
+          <li>Kraj: {singleCustomerData.address ? singleCustomerData.address.country : 'Brak danych'}</li>
+          <li>Miasto: {singleCustomerData.address ? singleCustomerData.address.city : 'Brak danych'}</li>
+          <li>Kod pocztowy: {singleCustomerData.address ? singleCustomerData.address.zipCode : 'Brak danych'}</li>
+          <li>Ulica: {singleCustomerData.address ? singleCustomerData.address.street : 'Brak danych'}</li>
+          <li>Numer budynku: {singleCustomerData.address ? (singleCustomerData.address.buildingNumber || 'Brak danych') : 'Brak danych'}</li>
+          <li>Email: {singleCustomerData.address ? (singleCustomerData.address.email || 'Brak danych') : 'Brak danych'}</li>
+          <li>Telefon: {singleCustomerData.address ? (singleCustomerData.address.phone || 'Brak danych') : 'Brak danych'}</li>
+        </ul>
+      </div>
+    </div>
+  );
 };
 
 export default CustomerDetails;

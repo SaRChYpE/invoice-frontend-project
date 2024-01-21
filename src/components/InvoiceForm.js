@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from "react-router-dom";
+import Navbar from "./Navbar";
 
 const InvoiceForm = () => {
   const token = sessionStorage.getItem('token');
@@ -25,7 +26,6 @@ const InvoiceForm = () => {
       if (response.ok) {
         const data = await response.json();
         setCustomerList(data.items);
-        navigate('/invoices');
       } else {
         console.error('Wystąpił błąd podczas pobierania listy klientów.');
       }
@@ -76,20 +76,27 @@ const InvoiceForm = () => {
     });
   };
 
-  const handleAddItem = () => {
-    setFormData({
-      ...formData,
-      items: [...formData.items, { name: '', price: 0, vatRate: 0 }]
-    });
+const handleAddItem = () => {
+  const newItem = {
+    name: '',
+    price: 0,
+    vatRate: 0,
+    id: Date.now() // Użyj timestampu jako unikalnego id
   };
 
-  const handleRemoveItem = (id) => {
-    const newItems = formData.items.filter((item) => item.id !== id);
-    setFormData({
-      ...formData,
-      items: newItems
-    });
-  };
+  setFormData({
+    ...formData,
+    items: [...formData.items, newItem]
+  });
+};
+
+const handleRemoveItem = (id) => {
+  const newItems = formData.items.filter((item) => item.id !== id);
+  setFormData({
+    ...formData,
+    items: newItems
+  });
+};
 
   const handleFormSubmit = async () => {
     let formIsValid = true;
@@ -131,6 +138,7 @@ const InvoiceForm = () => {
       });
 
       if (response.ok) {
+        navigate('/invoices');
         console.log('Faktura została utworzona pomyślnie.');
       } else {
         console.error('Wystąpił błąd podczas tworzenia faktury.');
@@ -142,7 +150,9 @@ const InvoiceForm = () => {
 
   return (
     <div>
-      <form>
+      <Navbar></Navbar>
+      <div className='invoice-form-container'>
+        <form className='invoice-form'>
         <label>
           Name:
           <input
@@ -217,6 +227,7 @@ const InvoiceForm = () => {
           Submit
         </button>
       </form>
+    </div>
     </div>
   );
 };

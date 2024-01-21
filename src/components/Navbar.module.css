@@ -1,0 +1,35 @@
+/* Aktualizacja dla stylu nawigacji */
+.navbarcontainer {
+  display: flex;
+  justify-content: center;
+}
+
+.navbarlist {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #007BFF;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  border: 1px solid #e7e7e7;
+}
+
+.navbaritem {
+  display: inline-block;
+  text-align: center;
+}
+
+.navbarlink {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  background-color: #007BFF;
+}
+
+.navbarlink:hover {
+  background-color: #111;
+}

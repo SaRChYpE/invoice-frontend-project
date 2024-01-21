@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import './style.css';
+//import './Login.css';
 import AuthContext from './AuthContext';
 
 const Login = () => {
@@ -44,9 +44,9 @@ const Login = () => {
   };
 
   return (
-    <div>
+      <div className='login-container'>
       <h2>Logowanie</h2>
-      <form>
+      <form className='login-form'>
         <label>
           Login:
           <input
@@ -72,7 +72,7 @@ const Login = () => {
         </button>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <p>
-          Nie masz konta? <Link to="/rejestracja">Zarejestruj się</Link>
+          Nie masz konta? <Link to="/register">Zarejestruj się</Link>
         </p>
       </form>
     </div>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import './InvoiceDetail.css'; // Importuj arkusz stylów (InvoiceDetail.css)
+import {useNavigate, useParams} from 'react-router-dom';
+import Navbar from "./Navbar";
 
-function ItemsList({ data, onDelete }) {
+function ItemsList({ data, onDelete, onAddItem, onRemoveItem }) {
   return (
     <div className="items-list-container">
       {data.map((item, index) => (
-        <div key={index} className="invoice-item">
+        <div key={index}>
           <h3>Faktura: {item.name}</h3>
           <p>Data utworzenia: {item.creationDate}</p>
 
@@ -69,6 +69,7 @@ const InvoiceDetail = () => {
   const [invoice, setInvoice] = useState([]);
   const [error, setError] = useState(null);
   const [isGenerated, setIsGenerated] = useState(false); // Nowy stan
+  const navigate = useNavigate();
 
   const generateInvoice = async () => {
     try {
@@ -128,7 +129,9 @@ const InvoiceDetail = () => {
     }
 
     fetch(`http://localhost:8080/rest/invoice/${id}`, {
+      method: 'GET',
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
     })
@@ -138,8 +141,12 @@ const InvoiceDetail = () => {
         }
         return response.json();
       })
-      .then(data => setInvoice([data]))
-      .catch(error => setError(error.message));
+      .then(data =>
+          setInvoice([data]))
+      .catch(error => {
+        setError(error.message)
+        navigate("/invoices")
+      });
   }, [id]);
 
   const handleDelete = async () => {
@@ -155,9 +162,70 @@ const InvoiceDetail = () => {
 
       if (response.ok) {
         console.log('Faktura została usunięta.');
+        navigate("/invoices")
         // Dodaj ewentualne dodatkowe działania po usunięciu faktury
       } else {
         console.error('Wystąpił błąd podczas usuwania faktury.');
+      }
+    } catch (error) {
+      console.error('Wystąpił błąd podczas wysyłania zapytania:', error);
+    }
+  };
+
+  const handleAddItem = async () => {
+    const token = sessionStorage.getItem('token');
+
+    try {
+      const response = await fetch(`http://localhost:8080/rest/invoice/add-items/${id}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        console.log('Nowy element został dodany.');
+        // Ponownie pobierz fakturę, aby uwzględnić nowy element
+        fetch(`http://localhost:8080/rest/invoice/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+          .then(response => response.json())
+          .then(data => setInvoice([data]))
+          .catch(error => setError(error.message));
+      } else {
+        console.error('Wystąpił błąd podczas dodawania nowego elementu.');
+      }
+    } catch (error) {
+      console.error('Wystąpił błąd podczas wysyłania zapytania:', error);
+    }
+  };
+
+  const handleRemoveItem = async (itemId) => {
+    const token = sessionStorage.getItem('token');
+
+    try {
+      const response = await fetch(`http://localhost:8080/rest/invoice/delete-items/${itemId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        console.log('Element został usunięty.');
+        // Ponownie pobierz fakturę, aby uwzględnić usunięty element
+        fetch(`http://localhost:8080/rest/invoice/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+          .then(response => response.json())
+          .then(data => setInvoice([data]))
+          .catch(error => setError(error.message));
+      } else {
+        console.error('Wystąpił błąd podczas usuwania elementu.');
       }
     } catch (error) {
       console.error('Wystąpił błąd podczas wysyłania zapytania:', error);
@@ -173,23 +241,29 @@ const InvoiceDetail = () => {
   }
 
   return (
-    <div className="invoice-detail-container">
-      {/* Wyświetlanie elementów dla bieżącej strony */}
-           <ItemsList data={invoice} onDelete={handleDelete} />
+    <div>
+      <Navbar></Navbar>
+      <div className="invoice-detail-container">
+        {/* Wyświetlanie elementów dla bieżącej strony */}
+        <ItemsList
+          data={invoice}
+          onDelete={handleDelete}
+          onAddItem={handleAddItem}
+          onRemoveItem={handleRemoveItem}
+        />
 
-      {/* Przycisk do generowania faktury */}
-      <button className="generate-button" onClick={generateInvoice}>
-        Generuj fakturę
-      </button>
-
-      {/* Przycisk do pobierania pliku (warunkowo renderowany) */}
-      {isGenerated && (
-        <button className="download-button" onClick={downloadFile}>
-          Pobierz plik
+        {/* Przycisk do generowania faktury */}
+        <button className="generate-button" onClick={generateInvoice}>
+          Generuj fakturę
         </button>
 
-
-      )}
+        {/* Przycisk do pobierania pliku (warunkowo renderowany) */}
+        {isGenerated && (
+          <button className="download-button" onClick={downloadFile}>
+            Pobierz plik
+          </button>
+        )}
+      </div>
     </div>
   );
 }

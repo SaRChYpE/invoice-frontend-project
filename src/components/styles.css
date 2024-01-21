@@ -1,0 +1,498 @@
+/* styles.css */
+
+/* Stylizacja dla CompanyForm */
+
+.companyFormContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px;
+}
+
+.companyForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.companyForm label {
+  margin-bottom: 10px;
+}
+
+.companyForm input {
+  margin-bottom: 15px;
+  padding: 8px;
+}
+
+.companyForm button {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+
+/* Stylizacja dla CustomerDetails i CompanyDetails */
+
+.detailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 100px;
+}
+
+.detailsContent {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.detailsContent h2 {
+  margin-bottom: 20px;
+}
+
+.detailsContent ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.detailsContent li {
+  margin-bottom: 10px;
+}
+
+
+/* Customer List styles */
+.customer-pagination-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  margin: 100px;
+}
+
+.customer-item {
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+  border-radius: 5px;
+}
+
+.customer-link {
+  text-decoration: none;
+  color: #2980b9;
+  font-weight: bold;
+}
+
+.pagination-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-button {
+  background-color: #3498db;
+  color: white;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination-button:hover {
+  background-color: #2980b9;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+}
+
+.home-heading {
+  color: #2980b9;
+}
+
+/* Logout button styles (assuming it's a separate component) */
+.logout-button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #2980b9;
+}
+
+/* styles.css */
+
+/* InvoiceDetail component styles */
+.invoice-detail-container {
+  margin: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+}
+
+.items-list-container {
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  padding: 20px;
+  margin: 20px;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-item {
+  margin-bottom: 20px;
+}
+
+.invoice-item h3 {
+  color: #2980b9;
+}
+
+.generate-button, .download-button, .delete-button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.generate-button:hover, .download-button:hover, .delete-button:hover {
+  background-color: #2980b9;
+}
+
+/* Additional styling for the loading and error messages */
+.loading-message, .error-message {
+  text-align: center;
+  margin: 20px;
+  color: #e74c3c; /* Red color for error messages */
+}
+
+/* PaginationExample component styles */
+.pagination-example-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+}
+
+.invoice {
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  padding: 20px;
+  margin: 20px;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-link {
+  text-decoration: none;
+  color: #2980b9;
+  font-size: 18px;
+}
+
+.pagination-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 15px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination-button:hover {
+  background-color: #2980b9;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+}
+
+/* styles.css */
+
+/* InvoiceForm component styles */
+.invoice-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+}
+
+.invoice-form {
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  padding: 20px;
+  margin: 20px;
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.invoice-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.invoice-input,
+.invoice-select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid #3498db;
+  border-radius: 5px;
+}
+
+.invoice-button {
+  background-color: #3498db;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.invoice-button:hover {
+  background-color: #2980b9;
+}
+
+.invoice-error {
+  color: #e74c3c; /* Red color for error messages */
+}
+
+/* Login component styles */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+}
+
+.login-form {
+  background-color: #3498db; /* Blue background color */
+  color: white; /* White text color */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.login-label {
+  display: block;
+  margin: 10px 0;
+}
+
+.login-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+
+.login-button {
+  background-color: #2980b9; /* Darker blue for button */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #21618c; /* Slightly darker blue on hover */
+}
+
+.login-error {
+  color: #e74c3c; /* Red color for error messages */
+}
+
+.login-link {
+  color: #3498db; /* Blue color for link */
+  text-decoration: none;
+}
+
+.login-link:hover {
+  color: #2980b9; /* Darker blue on hover */
+}
+
+/* styles.css */
+
+/* Registration component styles */
+.registration-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+}
+
+.registration-form {
+  background-color: #3498db; /* Blue background color */
+  color: white; /* White text color */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+.registration-label {
+  display: block;
+  margin: 10px 0;
+}
+
+.registration-input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 5px;
+}
+
+.registration-button {
+  background-color: #2980b9; /* Darker blue for button */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registration-button:hover {
+  background-color: #21618c; /* Slightly darker blue on hover */
+}
+
+.registration-error {
+  color: #e74c3c; /* Red color for error messages */
+}
+
+.registration-link {
+  color: #3498db; /* Blue color for link */
+  text-decoration: none;
+}
+
+.registration-link:hover {
+  color: #2980b9; /* Darker blue on hover */
+}
+
+/* WelcomePage component styles */
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Center content vertically */
+  height: 100vh; /* Full height of the viewport */
+  background-color: #3498db; /* Blue background color */
+  color: white; /* White text color */
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+/* Button styles */
+.button-container button {
+  background-color: #2980b9; /* Darker blue for button */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  margin: 0 10px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button-container button:hover {
+  background-color: #21618c; /* Slightly darker blue on hover */
+}
+
+/* Link styles */
+.button-container a {
+  text-decoration: none;
+}
+
+.button-container a:hover {
+  text-decoration: underline;
+}
+
+/* styles.css */
+
+/* Stylizacja dla CustomerForm */
+
+#customer-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Centrowanie zawartości na całej wysokości widoku */
+  background-color: #3498db; /* Kolor niebieski */
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Szerokość formularza, możesz dostosować według potrzeb */
+  margin-top: 100px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container label {
+  margin-bottom: 10px;
+}
+
+.form-container input {
+  margin-bottom: 15px;
+  padding: 8px;
+  width: 100%;
+}
+
+.form-container h3 {
+  margin-bottom: 10px;
+}
+
+.button {
+  background-color: #2980b9; /* Kolor przycisku */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.button:hover {
+  background-color: #21618c; /* Ciemniejszy kolor przycisku po najechaniu */
+}
+
+
+
